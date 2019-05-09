@@ -2,16 +2,8 @@
 
 #make sure to sanitize inputs when calling encrypt/decrypt!
 
-$dt1 = new DoubleTransposition;
-
-$str1 = $dt1->encrypt("spart", "pie", "spartans are coming hide your wife and kids");
-echo $str1 . "<br>";
-
-$str2 = $dt1->decrypt("pie", "spart", $str1);
-echo $str2;
-
 class DoubleTransposition{
-	
+
 	#Splitting key into an array
 	function splitKey($keyInput)
 	{

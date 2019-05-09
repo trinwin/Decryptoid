@@ -4,3 +4,7 @@
  * User: TrinhNg
  */
 
+$hn = 'localhost';
+$un = 'root';
+$pw = 'hello';
+$db = 'phpweb';
