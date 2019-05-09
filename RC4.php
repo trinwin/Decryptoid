@@ -7,14 +7,17 @@
  */
 /*
  * RC4 symmetric cipher encryption
- *
  * @param key - secret key for encryption
  * @param str - string to be encrypted
  * @return string
  */
 
-echo rc4("secret", "Hello World") . "<br>";
-echo rc4("secret", "trinh nguyen"). "<br>";
+
+//echo "hello";
+$cipherText = rc4("secret", "Hello World");
+echo $cipherText ."\n";
+
+echo rc4("secret", $cipherText). "\n";
 
 function rc4($key, $plainText) {
 
@@ -54,7 +57,6 @@ function rc4($key, $plainText) {
     return $cipherText;
 }
 
-?>
 
 
 

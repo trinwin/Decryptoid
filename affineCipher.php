@@ -8,6 +8,7 @@ static $key_A = 17;
 static $key_B = 20;
 static $numLetter = 26;
 
+
 $plainText = "Hello World";
 $cipherText = affineCipherEncrypt($plainText, $key_A, $key_B, $numLetter);
 echo "\n" . $cipherText . "\n";
@@ -17,6 +18,7 @@ $plainText = "CS174 Server-side web programming";
 $cipherText = affineCipherEncrypt($plainText, $key_A, $key_B, $numLetter);
 echo "\n" .$cipherText . "\n";
 echo affineCipherDecrypt($cipherText, $key_A, $key_B, $numLetter);
+
 
 function affineCipherEncrypt($plainText, $key_A, $key_B, $numLetter){
     $array = str_split(strtoupper($plainText));
@@ -38,7 +40,7 @@ function affineCipherEncrypt($plainText, $key_A, $key_B, $numLetter){
 function affineCipherDecrypt($cipherText, $key_A, $key_B, $numLetter){
     $array = str_split(strtoupper($cipherText));
     $plainText = "";
-
+    $inverse_A = 0;
     //Find multiplicative inverse of a
     for ($i = 0; $i < 26; $i++){
         $flag = ($key_A * $i) % 26;
