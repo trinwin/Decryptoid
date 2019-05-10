@@ -1,4 +1,6 @@
 <?php
+//Javascript functions
+echo <<<_END
 <html>
 <script>
 	function validate(form)
@@ -75,8 +77,9 @@
 	}
 </script>
 </html>
-//PHP Functions
+_END;
 
+//PHP Functions
 	function validate(form)
 	{
 		fail = validateForename(form.forename.value)
