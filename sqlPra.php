@@ -238,6 +238,7 @@ if(isset($_POST['submit'])){
         $key_A = 17;
         $key_B = 20;
         $numLetter = 26;
+
         if($_POST['type'] == 'Encrypt'){
             $output = $ob->affineCipherEncrypt($myData, $key_A, $key_B, $numLetter);
         } else if($_POST['type'] == 'Decrypt'){
