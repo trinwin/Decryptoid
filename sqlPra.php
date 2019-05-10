@@ -16,17 +16,18 @@ require_once 'login.php';
 $conn = new mysqli($hn, $un, $pw, $db);
 if($conn->connect_error) die($conn->connect_error);
 
+session_start();
+//Set time out to 1 day
+ini_set('session.gc_maxlifetime', 60 * 60 * 24);
 
-#   $query="CREATE TABLE IF NOT EXISTS users(
-#       username VARCHAR(32) NOT NULL UNIQUE,
-#       password VARCHAR(32) NOT NULL,
-#       email VARCHAR(50) NOT NULL
-#   )";
+if (isset($_SESSION['username'])) {
 
-#   $result = $conn->query($query);
-#   if(!$result) die ("Database access failed: " . $conn->error);
+    $username = $_SESSION['username'];
 
-$query = "CREATE TABLE IF NOT EXISTS dataEntry(
+    echo "Welcome back $username!<br><br>";
+
+    //CHECK SESSION AND THEN SAVE dataEntry
+    $query = "CREATE TABLE IF NOT EXISTS dataEntry(
         entryTimeStamp TIMESTAMP NOT NULL,
         username VARCHAR(32) NOT NULL,
         textInput TEXT,
@@ -34,15 +35,18 @@ $query = "CREATE TABLE IF NOT EXISTS dataEntry(
         convertedOutput BLOB
     )";
 
-$result = $conn->query($query);
-if(!$result) die ("Database access failed 1: " . $conn->error);
+    $result = $conn->query($query);
+    if(!$result) die ("Database access failed 1: " . $conn->error);
+}
 
 
 function makeQuery($conn, $timestamp, $username, $text, $file, $output){
 
-    $query = "INSERT INTO dataentry VALUES('$timestamp', '$username', '$text', '$file', '$output')";
-    $result = $conn->query($query);
-    if(!$result) die("Database access failed 2: " . $conn->error);
+    if (isset($_SESSION['username'])) {
+        $query = "INSERT INTO dataentry VALUES('$timestamp', '$username', '$text', '$file', '$output')";
+        $result = $conn->query($query);
+        if(!$result) die("Database access failed 2: " . $conn->error);
+    }
 }
 
 if(isset($_POST['myArea']) && isset($_POST['submit'])){
@@ -52,6 +56,7 @@ if(isset($_POST['myArea']) && isset($_POST['submit'])){
     #echo $value;
 
 }
+
 echo <<<_END
     
     <h1>Welcome to Decryptoid!</h1>
@@ -93,14 +98,15 @@ _END;
 
 if(isset($_POST['submit'])){
 
-    $output ="";
-    $fileInput="";
-    $textInput="";
+    $output    = "";
+    $fileInput = "";
+    $textInput = "";
 
     date_default_timezone_set('America/Los_Angeles');
     $timestamp = date('Y-m-d G:i:s');
-    $username = "bob"; //temporary until we have signup page ready
 
+    if (isset($_SESSION['username']))
+        $username = $_SESSION['username'];
 
     if((isset($_POST['myArea']) || isset($_POST['file'])) && $_POST['ciphers']=='Simple Substitution'){
 
@@ -277,9 +283,6 @@ if(isset($_POST['submit'])){
             $output = $ob->decrypt("key", $myData);
         }
 
-
-
-
         echo "time " . $timestamp . " username". $username . " fileInput "
             . $fileInput . " textInput " . $textInput. " output " . $output;
         makeQuery($conn, $timestamp, $username, $textInput, $fileInput, $output);
@@ -315,5 +318,11 @@ if(isset($_POST['submit'])){
         makeQuery($conn, $timestamp, $username, $textInput, $fileInput, $output);
         */
     }
+
+
+
+
 }
+
+
 ?>

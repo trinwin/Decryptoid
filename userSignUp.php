@@ -61,6 +61,8 @@ if (isset($_POST['submit'])) {
     $email      = sanitizeMySQL($connect, $_POST['email']);
     $password   = sanitizeMySQL($connect, $_POST['psw']);
 
+    echo "here".$password. "<br>";
+
     $salt1 = "qm&h*"; $salt2 = "pg!@";
     $token = hash('ripemd128', "$salt1$password$salt2");
 

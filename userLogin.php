@@ -10,6 +10,7 @@ if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
     $un_temp = mysql_entities_fix_string($connect, $_SERVER['PHP_AUTH_USER']);
     $pw_temp = mysql_entities_fix_string($connect, $_SERVER['PHP_AUTH_PW']);
 
+    echo "here".$pw_temp. "<br>";
     $query = "SELECT * FROM users WHERE username = '$un_temp'";
     $result = $connect->query($query);
 
@@ -22,14 +23,14 @@ if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
         $token = hash('ripemd128', "$salt1$pw_temp$salt2");
 
         //Compare passwords
-        if ($token == $row[3]) {
+        if ($token == $row[2]) {
             session_start();
             $_SESSION['username'] = $un_temp;
             $_SESSION['email'] = $row[2];
             $_SESSION['password'] = $pw_temp;
 
             echo "Hi $un_temp";
-            die ("<p><a href=fileUpload.php>Click here to access your files</a></p>");
+            die ("<p><a href=sqlPra.php>Click here to access main page</a></p>");
         }
         else {
             echo "Please close the browser and log in again or sign up <br>";
