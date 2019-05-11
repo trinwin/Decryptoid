@@ -175,6 +175,8 @@
 			
 			$str = str_replace(' ','',$msg);	# remove white spaces 
 			
+			$str = strtolower($str);
+		
 			if(strlen($str)%2!=0){
 				$str = $str . "q";
 			}
@@ -183,9 +185,33 @@
 			
 			return $encryptedMSG;
 		}
+		
+		public function decrpyt($msg){
+				$ob = new PlayFair();
+				$encryptedMSG = $ob->encryptMessage($msg);
+				
+				$msg=strtolower($msg);
+				
+				for($i=0; $i<strlen($encryptedMSG); $i++){
+					
+					if($encryptedMSG{$i}=="x" && $i!=0){
+							$temp =$encryptedMSG{$i-1};
+							$encryptedMSG{$i}=$temp;
+					}	
+				}
+				
+				if($encryptedMSG{strlen($encryptedMSG)-1}=="q" && strlen($encryptedMSG) > 2){
+					$encryptedMSG{strlen($encryptedMSG)-1}=" ";
+				}
+
+				return $encryptedMSG;
+		}
+	
 	}
 	
-	$ob = new PlayFair();
-	echo $ob->encrypt("my name is mandeep");
+#	$ob = new PlayFair();
+#	echo $ob->encrypt("my name is mandeep my name is victor") . "<br>";
+#	echo $ob->decrpyt("owlcpbhtlbocczkuowlcpbhtyfdsmtsv");
+	
 	
 ?>
