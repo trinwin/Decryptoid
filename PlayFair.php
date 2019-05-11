@@ -186,7 +186,7 @@
 			return $encryptedMSG;
 		}
 		
-		public function decrpyt($msg){
+		public function decrypt($msg){
 				$ob = new PlayFair();
 				$encryptedMSG = $ob->encryptMessage($msg);
 				
@@ -211,7 +211,7 @@
 	
 #	$ob = new PlayFair();
 #	echo $ob->encrypt("my name is mandeep my name is victor") . "<br>";
-#	echo $ob->decrpyt("owlcpbhtlbocczkuowlcpbhtyfdsmtsv");
+#	echo $ob->decrypt("owlcpbhtlbocczkuowlcpbhtyfdsmtsv");
 	
 	
 ?>
