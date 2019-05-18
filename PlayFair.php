@@ -203,10 +203,13 @@
 				if($encryptedMSG{strlen($encryptedMSG)-1}=="q" && strlen($encryptedMSG) > 2){
 					$encryptedMSG{strlen($encryptedMSG)-1}=" ";
 				}
-
+				
+				if($encryptedMSG{strlen($encryptedMSG)-2}=="q" && strlen($encryptedMSG) > 2){
+					$encryptedMSG{strlen($encryptedMSG)-2}=" ";
+				}
+				
 				return $encryptedMSG;
-		}
-	
+		}	
 	}
 	
 #	$ob = new PlayFair();

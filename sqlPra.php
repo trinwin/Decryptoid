@@ -240,16 +240,16 @@ else if (isset($_POST['submit2']))
 		}
 
 		else if($_POST['ciphers']=='Play Fair'){
-			/*	
+				
 			require_once 'PlayFair.php';
 
 			$ob = new PlayFair();
 			if($_POST['type'] == 'Encrypt'){
-				$output = $ob->encrypt("key", $myData);
+				$output = $ob->encrypt($myData);
 				echo $output;
 
 			} else if($_POST['type'] == 'Decrypt'){
-				$output = $ob->decrypt("key", $myData);
+				$output = $ob->decrypt($myData);
 				echo $output;
 			}
 
@@ -257,7 +257,7 @@ else if (isset($_POST['submit2']))
 			if (isset($_SESSION['username'])) {
 				makeQuery($conn, $timestamp, $username, $textInput, $fileInput, $output);
 			}
-			*/
+			
 		}
 	}
 
