@@ -1,10 +1,10 @@
 <?php
 
-$vc1 = new VigenereCipher;
+#$vc1 = new VigenereCipher;
 
-echo $vc1->encrypt("spart", "spartans are coming hide your wife and kids") . "<br>";
+#echo $vc1->encrypt("spart", "spartans are coming hide your wife and kids") . "<br>";
 
-echo $vc1->decrypt("spart", $vc1->encrypt("spart", "spartans are coming hide your wife and kids"));
+#echo $vc1->decrypt("spart", $vc1->encrypt("spart", "spartans are coming hide your wife and kids"));
 
 
 #MAKE SURE TO REMOVE ANY INPUT THAT ISNT LETTERS A-Z. Can take lower case or upper case letters only.
