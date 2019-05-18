@@ -1,15 +1,42 @@
 <?php
-
 require_once "login.php";
 $connect = new mysqli($hn, $un, $pw, $db);
 if ($connect->connect_error) die("Connection failed: " . $connect->connect_error);
 
-
-
 echo <<<_END
-    <html><head><title>Sign up</title></head><body>
+    <html>
+		<head>
+			<title>Sign up</title>
+			
+			<script>
+			function Validate() {
+            email = document.forms["signup"]["email"];
+            username = document.forms["signup"]["username"];
+            password = document.forms["signup"]["password"];
+            reg_email = /^\w+@[a-z]+\.(edu|com)$/;
+            reg_user = /^[\w_-]+$/;
+             
+            if(!reg_email.test(email.value)) {
+                window.alert("email is in an incorrect format");
+                return false;
+            }
+            if(!reg_user.test(username.value)){
+               window.alert("username is in an incorrect format");
+               return false;
+            }
+            if(!reg_user.test(password.value)){
+                window.alert("password is in an incorrect format");
+                return false;
+            }
+            
+            return true;
+            }
+			</script>
+
+		</head>
+	<body>
     
-    <form method='POST' action='userSignUp.php'>
+    <form id ='signup' form method='POST' action='userSignUp.php' name='form' onsubmit ="return Validate();">
         <div class="container">
             <h1>Sign Up</h1>
             <p>Please fill in this form to create an account.</p>
@@ -30,9 +57,14 @@ echo <<<_END
             <label for="psw-repeat"><b>Repeat Password</b></label>
             <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
             <br><br>
-        
+			
+			
+			<script>
+			
+			</script>
+		
             <div class="clearfix">
-                <button type="submit" name = "submit" class="signupbtn">Sign Up</button>
+				<button type="submit" name = "submit" class="signupbtn">Sign Up</button>
                 <button type="button" class="cancelbtn">Cancel</button>
             </div>
         </div>
@@ -61,6 +93,8 @@ if (isset($_POST['submit'])) {
     $email      = sanitizeMySQL($connect, $_POST['email']);
     $password   = sanitizeMySQL($connect, $_POST['psw']);
 
+    Validate($email, $username, $password);
+
     echo "here".$password. "<br>";
 
     $salt1 = "qm&h*"; $salt2 = "pg!@";
@@ -73,6 +107,7 @@ if (isset($_POST['submit'])) {
     Your email is '$email' <br>";
     die ("<p><a href=userLogin.php>Click here to log in</a></p>");
 }
+
 
 function add_user($connection, $username, $email, $token)
 {
@@ -93,4 +128,20 @@ function sanitizeMySQL($connection, $var) {
     $var = $connection->real_escape_string($var);
     $var = sanitizeString($var);
     return $var;
+}
+
+function Validate($email, $username, $password) {
+    echo "validate";
+    $str = "";
+    $reg_email = "/^\w+@[a-z]+\.(edu|com)$/";
+    $reg_user = "/^[\w_-]+$/";
+
+    if(!preg_match($reg_email, $email))
+        echo "email is in an incorrect format";
+
+    if(!preg_match($reg_user, $username))
+        echo "username is in an incorrect format";
+
+    if(!preg_match($reg_user, $password))
+        echo "password is in an incorrect format";
 }

@@ -9,7 +9,6 @@
 #   Password: <input type = "password" placeholder="enter password" required>
 #   <button>Sign-in</button>
 
-
 # login file
 require_once 'login.php';
 require_once 'Sanitize.php';
@@ -18,11 +17,15 @@ $conn = new mysqli($hn, $un, $pw, $db);
 if($conn->connect_error) die($conn->connect_error);
 
 session_start();
+
 //Set time out to 1 day
+
 /*if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
 	ini_set('session.gc_maxlifetime', 60 * 60 * 24);
 }
 */
+
+
 if (isset($_SESSION['username'])) {
 
     $username = $_SESSION['username'];
@@ -46,7 +49,7 @@ if (isset($_SESSION['username'])) {
 
 
 echo <<<_END
-    
+
     <h1>Welcome to Decryptoid!</h1>
     
 	<p><a href=userSignUp.php>Sign up</a>   <a href=userLogin.php>Login</a></p>
@@ -154,8 +157,6 @@ function start($myData, $conn, $bool){
             $output = $ob->Decrypt($myData, $pair);
             echo $output;
         }
-
-
 
         if (isset($_SESSION['username'])) {
 

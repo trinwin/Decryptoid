@@ -1,5 +1,4 @@
 <?php
-//Javascript functions
 //echo <<<_END
 //<html>
 //<script>
@@ -107,24 +106,7 @@
 //		return ($field == "") ? "No Surname was entered.<br>" : ""
 //	}
 //
-//	function validatePassword($field)
-//	{
-//		if ($field == "")
-//		{
-//			return "No Password was entered.<br>"
-//		}
-//		else if (strlen($field)<6)
-//		{
-//			return "Passwords must be at least 6 characters.<br>"
-//		}
-//		else if (!preg_match("/[a-z]/", $field) ||
-//				 !preg_match("/[A-Z]/", $field) ||
-//				 !preg_match("/[0-9]/",$field))
-//		{
-//			return "Passwords require one each of a-z, A-Z, and 0-9.<br>"
-//		}
-//		return ""
-//	}
+//
 //
 //	function validateAge($field)
 //	{
