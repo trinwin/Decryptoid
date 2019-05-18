@@ -51,7 +51,7 @@ echo <<<_END
     
 	<p><a href=userSignUp.php>Sign up</a>   <a href=userLogin.php>Login</a></p>
 	
-    <form action="sqlPra.php" method="POST">
+    <form action="sqlPra.php" method="POST" enctype="multipart/form-data">
         
         Select Cipher: <select id ="ciphers" name ="ciphers">
             <option value = "Simple Substitution">Simple Substitution</option>
@@ -73,7 +73,7 @@ echo <<<_END
         
         <br><br>
         <p>Submit text file here:</p>
-        <input type="file" name ="file">
+       <input type='file' name='fileToUpload' id='fileToUpload'>
         <br><br>
         
         <input type = "Submit" name ="submit1" value="Encrypt/Decrypt Textbox!"/>
@@ -87,7 +87,7 @@ echo <<<_END
 _END;
 
 
-if(isset($_POST['submit1'])){
+if (isset($_POST['submit1'])){
 	if(strlen($_POST['myArea'])!=0){
 		
 		$text = sanitizeMySQL($conn, $_POST['myArea']);
@@ -96,171 +96,174 @@ if(isset($_POST['submit1'])){
 		start($text, $conn, true);
 	}
 }
-else if (isset($_POST['submit2']))
-{
-	if(isset($_POST['file'])){
-        $text = sanitizeMySQL($conn, file_get_contents($_POST['file']));
-		$text=preg_replace("/[^A-Za-z]/", '', $text);
+else if (isset($_POST['submit2'])) {
+    if ($_FILES['fileToUpload']['type'] == 'text/plain') {
 
-		start($text, $conn, false);
+        $filename = $_FILES['fileToUpload']['name'];
+        $text = sanitizeMySQL($conn, file_get_contents($filename));
+        $text = preg_replace("/[^A-Za-z]/", '', $text);
 
-    }            
+        start($text, $conn, false);
+
+    } else {
+        echo "This file is not a text file. Please try again" . "<br>";
+    }
+
 }
 
-	function start($myData, $conn, $bool)
-	{
+function start($myData, $conn, $bool)
+{
 
-		$output    = "";
-		$textInput = "";
-		$fileInput = "";
-		
-		if($bool){
-			$textInput = $myData;
-			$fileInput = "";
-		}else{
-			$textInput ="";
-			$fileInput = $myData;
-		}
+    $output    = "";
+    $textInput = "";
+    $fileInput = "";
 
-		date_default_timezone_set('America/Los_Angeles');
-		$timestamp = date('Y-m-d G:i:s');
+    if($bool){
+        $textInput = $myData;
+        $fileInput = "";
+    }else{
+        $textInput ="";
+        $fileInput = $myData;
+    }
 
-		if (isset($_SESSION['username']))
-		{
-			$username = $_SESSION['username'];
-		}
-		
-		if($_POST['ciphers']=='Simple Substitution'){
+    date_default_timezone_set('America/Los_Angeles');
+    $timestamp = date('Y-m-d G:i:s');
 
-			require_once 'SimpleSubs.php';
+    if (isset($_SESSION['username']))
+    {
+        $username = $_SESSION['username'];
+    }
 
-			$ob = new SimpleSubstitution();
+    if($_POST['ciphers']=='Simple Substitution'){
 
-			$pair = array("a"=>"p", "b"=>"h", "c"=>"q", "d"=>"g", "e"=>"i","f"=>"u",
-				"g"=>"m", "h"=>"e","i"=>"a", "j"=>"y", "k"=>"l", "l"=>"n", "m"=>"o",
-				"n"=>"f", "o"=>"d", "p"=>"x", "q"=>"j", "r"=>"k", "s"=>"r", "t"=>"c",
-				"u"=>"v", "v"=>"s", "w"=>"t", "x"=>"z", "y"=>"w", "z"=>"b"," "=> " ");
+        require_once 'SimpleSubs.php';
 
-			if($_POST['type'] == 'Encrypt'){
+        $ob = new SimpleSubstitution();
 
-				$output =  $ob->encrypt($myData, $pair);
-				echo $output;
+        $pair = array("a"=>"p", "b"=>"h", "c"=>"q", "d"=>"g", "e"=>"i","f"=>"u",
+            "g"=>"m", "h"=>"e","i"=>"a", "j"=>"y", "k"=>"l", "l"=>"n", "m"=>"o",
+            "n"=>"f", "o"=>"d", "p"=>"x", "q"=>"j", "r"=>"k", "s"=>"r", "t"=>"c",
+            "u"=>"v", "v"=>"s", "w"=>"t", "x"=>"z", "y"=>"w", "z"=>"b"," "=> " ");
 
-			}else if($_POST['type'] == 'Decrypt'){
+        if($_POST['type'] == 'Encrypt'){
 
-				$output = $ob->Decrypt($myData, $pair);
-				echo $output;
-			}
-		
+            $output =  $ob->encrypt($myData, $pair);
+            echo $output;
 
+        }else if($_POST['type'] == 'Decrypt'){
 
-			if (isset($_SESSION['username'])) {
-
-				makeQuery($conn, $timestamp, $username, $textInput, $fileInput, $output);
-				
-			}
-
-		}else if($_POST['ciphers']=='Double Transposition'){
-
-			require_once 'DoubleTransposition.php';
-
-			$ob = new DoubleTransposition();
-
-			if($_POST['type'] == 'Encrypt'){
-
-				$output = $ob->encrypt("spart","pie", $myData);
-				echo $output;
-
-			}else if($_POST['type'] == 'Decrypt'){
-
-				$output = $ob->decrypt("pie", "spart", $myData);
-				echo $output;
-			}
-
-			if (isset($_SESSION['username'])) {
-				makeQuery($conn, $timestamp, $username, $textInput, $fileInput, $output);
-			}
-
-		}else if($_POST['ciphers'] =='RC4'){
-			require_once 'RC4.php';
-
-			$ob = new RC4();
-
-			if($_POST['type'] == 'Encrypt'){
-				$output = $ob->rc4Cipher("secret", $myData);
-				echo $output;
-			} else if($_POST['type'] == 'Decrypt'){
-				$output = $ob->rc4Cipher("secret", $myData);
-				echo $output;
-			}
-
-			if (isset($_SESSION['username'])) {
-				makeQuery($conn, $timestamp, $username, $textInput, $fileInput, $output);
-			}
-
-		}else if($_POST['ciphers']=='Affine Cipher'){
+            $output = $ob->Decrypt($myData, $pair);
+            echo $output;
+        }
 
 
-			require_once 'affineCipher.php';
 
-			$ob = new AffineCipher();
-			$key_A = 17;
-			$key_B = 20;
-			$numLetter = 26;
+        if (isset($_SESSION['username'])) {
 
-			if($_POST['type'] == 'Encrypt'){
-				$output = $ob->affineCipherEncrypt($myData, $key_A, $key_B, $numLetter);
-				echo $output;
-			} else if($_POST['type'] == 'Decrypt'){
-				$output = $ob->affineCipherDecrypt($myData, $key_A, $key_B, $numLetter);
-				echo $output;
-			}
+            makeQuery($conn, $timestamp, $username, $textInput, $fileInput, $output);
 
-			if (isset($_SESSION['username'])) {
-				makeQuery($conn, $timestamp, $username, $textInput, $fileInput, $output);
-			}
-		}
+        }
 
-		else if($_POST['ciphers']=='Vigenere Cipher'){
+    }else if($_POST['ciphers']=='Double Transposition'){
 
-			require_once 'VigenereCipher.php';
+        require_once 'DoubleTransposition.php';
 
-			$ob = new VigenereCipher();
-			if($_POST['type'] == 'Encrypt'){
-				$output = $ob->encrypt("key", $myData);
-				echo $output;
-			} else if($_POST['type'] == 'Decrypt'){
-				$output = $ob->decrypt("key", $myData);
-				echo $output;
-			}
+        $ob = new DoubleTransposition();
 
-			if (isset($_SESSION['username'])) {
-				makeQuery($conn, $timestamp, $username, $textInput, $fileInput, $output);
-			}
-		}
+        if($_POST['type'] == 'Encrypt'){
 
-		else if($_POST['ciphers']=='Play Fair'){
-			/*	
-			require_once 'PlayFair.php';
+            $output = $ob->encrypt("spart","pie", $myData);
+            echo $output;
 
-			$ob = new PlayFair();
-			if($_POST['type'] == 'Encrypt'){
-				$output = $ob->encrypt("key", $myData);
-				echo $output;
+        }else if($_POST['type'] == 'Decrypt'){
 
-			} else if($_POST['type'] == 'Decrypt'){
-				$output = $ob->decrypt("key", $myData);
-				echo $output;
-			}
+            $output = $ob->decrypt("pie", "spart", $myData);
+            echo $output;
+        }
+
+        if (isset($_SESSION['username'])) {
+            makeQuery($conn, $timestamp, $username, $textInput, $fileInput, $output);
+        }
+
+    }else if($_POST['ciphers'] =='RC4'){
+        require_once 'RC4.php';
+
+        $ob = new RC4();
+
+        if($_POST['type'] == 'Encrypt'){
+            $output = $ob->rc4Cipher("secret", $myData);
+            echo $output;
+        } else if($_POST['type'] == 'Decrypt'){
+            $output = $ob->rc4Cipher("secret", $myData);
+            echo $output;
+        }
+
+        if (isset($_SESSION['username'])) {
+            makeQuery($conn, $timestamp, $username, $textInput, $fileInput, $output);
+        }
+
+    }else if($_POST['ciphers']=='Affine Cipher'){
 
 
-			if (isset($_SESSION['username'])) {
-				makeQuery($conn, $timestamp, $username, $textInput, $fileInput, $output);
-			}
-			*/
-		}
-	}
+        require_once 'affineCipher.php';
 
+        $ob = new AffineCipher();
+        $key_A = 17;
+        $key_B = 20;
+        $numLetter = 26;
+
+        if($_POST['type'] == 'Encrypt'){
+            $output = $ob->affineCipherEncrypt($myData, $key_A, $key_B, $numLetter);
+            echo $output;
+        } else if($_POST['type'] == 'Decrypt'){
+            $output = $ob->affineCipherDecrypt($myData, $key_A, $key_B, $numLetter);
+            echo $output;
+        }
+
+        if (isset($_SESSION['username'])) {
+            makeQuery($conn, $timestamp, $username, $textInput, $fileInput, $output);
+        }
+    }
+
+    else if($_POST['ciphers']=='Vigenere Cipher'){
+
+        require_once 'VigenereCipher.php';
+
+        $ob = new VigenereCipher();
+        if($_POST['type'] == 'Encrypt'){
+            $output = $ob->encrypt("key", $myData);
+            echo $output;
+        } else if($_POST['type'] == 'Decrypt'){
+            $output = $ob->decrypt("key", $myData);
+            echo $output;
+        }
+
+        if (isset($_SESSION['username'])) {
+            makeQuery($conn, $timestamp, $username, $textInput, $fileInput, $output);
+        }
+    }
+
+    else if($_POST['ciphers']=='Play Fair'){
+        /*
+        require_once 'PlayFair.php';
+
+        $ob = new PlayFair();
+        if($_POST['type'] == 'Encrypt'){
+            $output = $ob->encrypt("key", $myData);
+            echo $output;
+
+        } else if($_POST['type'] == 'Decrypt'){
+            $output = $ob->decrypt("key", $myData);
+            echo $output;
+        }
+
+
+        if (isset($_SESSION['username'])) {
+            makeQuery($conn, $timestamp, $username, $textInput, $fileInput, $output);
+        }
+        */
+    }
+}
 
 function makeQuery($conn, $timestamp, $username, $text, $file, $output){
 
