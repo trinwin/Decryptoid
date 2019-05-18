@@ -111,8 +111,7 @@ else if (isset($_POST['submit2'])) {
 
 }
 
-function start($myData, $conn, $bool)
-{
+function start($myData, $conn, $bool){
 
     $output    = "";
     $textInput = "";
@@ -203,8 +202,6 @@ function start($myData, $conn, $bool)
         }
 
     }else if($_POST['ciphers']=='Affine Cipher'){
-
-
         require_once 'affineCipher.php';
 
         $ob = new AffineCipher();
@@ -212,23 +209,19 @@ function start($myData, $conn, $bool)
         $key_B = 20;
         $numLetter = 26;
 
-        if($_POST['type'] == 'Encrypt'){
+   if($_POST['type'] == 'Encrypt'){
             $output = $ob->affineCipherEncrypt($myData, $key_A, $key_B, $numLetter);
             echo $output;
         } else if($_POST['type'] == 'Decrypt'){
             $output = $ob->affineCipherDecrypt($myData, $key_A, $key_B, $numLetter);
             echo $output;
         }
-
         if (isset($_SESSION['username'])) {
             makeQuery($conn, $timestamp, $username, $textInput, $fileInput, $output);
         }
     }
-
     else if($_POST['ciphers']=='Vigenere Cipher'){
-
         require_once 'VigenereCipher.php';
-
         $ob = new VigenereCipher();
         if($_POST['type'] == 'Encrypt'){
             $output = $ob->encrypt("key", $myData);
@@ -237,42 +230,34 @@ function start($myData, $conn, $bool)
             $output = $ob->decrypt("key", $myData);
             echo $output;
         }
-
         if (isset($_SESSION['username'])) {
             makeQuery($conn, $timestamp, $username, $textInput, $fileInput, $output);
         }
     }
-
     else if($_POST['ciphers']=='Play Fair'){
-        /*
-        require_once 'PlayFair.php';
 
+        require_once 'PlayFair.php';
         $ob = new PlayFair();
         if($_POST['type'] == 'Encrypt'){
-            $output = $ob->encrypt("key", $myData);
+            $output = $ob->encrypt($myData);
             echo $output;
-
         } else if($_POST['type'] == 'Decrypt'){
-            $output = $ob->decrypt("key", $myData);
+            $output = $ob->decrypt($myData);
             echo $output;
         }
-
-
         if (isset($_SESSION['username'])) {
             makeQuery($conn, $timestamp, $username, $textInput, $fileInput, $output);
         }
-        */
+
     }
 }
 
 function makeQuery($conn, $timestamp, $username, $text, $file, $output){
-
         $query = "INSERT INTO dataentry VALUES('$timestamp', '$username', '$text', '$file', '$output')";
         $result = $conn->query($query);
         if(!$result) die("Database access failed 2: " . $conn->error);
-   
-}
 
+}
 
 
 ?>
