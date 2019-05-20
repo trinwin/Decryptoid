@@ -44,7 +44,6 @@ echo <<<_END
                         
                     return false;
                 }
-                
                 return true;
             }
             
@@ -52,7 +51,7 @@ echo <<<_END
 
 		</head>
 	<body>
-        <form id='signup' method='POST' action='UserSignUp.php' name='form' onsubmit ="return Validate();">
+        <form id='signup' method='POST' action='UserSignUp.php' name='form' onsubmit="return Validate();">
             <div class="container">
                 <h1>Sign Up</h1>
                 <p>Please fill in this form to create an account.</p>
@@ -67,11 +66,7 @@ echo <<<_END
                 <br><br>
                 
                 <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
-                <br><br>
-                
-                <label for="psw-repeat"><b>Repeat Password</b></label>
-                <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+                <input type="password" placeholder="Enter Password" name="password" required>
                 <br><br>
                 
                 <div class="clearfix">
@@ -98,23 +93,19 @@ if (isset($_POST['submit'])) {
 
     $username   = sanitizeMySQL($connect, $_POST['username']);
     $email      = sanitizeMySQL($connect, $_POST['email']);
-    $password   = sanitizeMySQL($connect, $_POST['psw']);
+    $password   = sanitizeMySQL($connect, $_POST['password']);
 
     if (Validate($email, $username, $password)){
         $salt1 = "qm&h*"; $salt2 = "pg!@";
         $token = hash('ripemd128', "$salt1$password$salt2");
-
         add_user($connect, $username, $email, $token);
-
         echo "Welcome!<br>
         Your username is '$username' <br>
         Your email is '$email' <br>";
         die ("<p><a href=UserLogin.php>Click here to log in</a></p>");
-
+        $result->close();
+        $connect->close();
     }
-
-    $result->close();
-    $connect->close();
 }
 
 
@@ -145,7 +136,5 @@ function Validate($email, $username, $password) {
         }
         return false;
     }
-
     return true;
 }
-
