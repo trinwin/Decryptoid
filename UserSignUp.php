@@ -91,33 +91,24 @@ $table = "CREATE TABLE IF NOT EXISTS users (
       )";
 
 
-//Check connections
-if ($connect->query($table) === TRUE) {
-//    echo "Table users created successfully"."<br>";
-} else {
-//    echo "Error creating table: " . $connect->error;
-}
-
+$result = $connect->query($table);
 if (isset($_POST['submit'])) {
-
     $username   = sanitizeMySQL($connect, $_POST['username']);
     $email      = sanitizeMySQL($connect, $_POST['email']);
     $password   = sanitizeMySQL($connect, $_POST['psw']);
-
     if (Validate($email, $username, $password)){
         $salt1 = "qm&h*"; $salt2 = "pg!@";
         $token = hash('ripemd128', "$salt1$password$salt2");
-
         add_user($connect, $username, $email, $token);
-
         echo "Welcome!<br>
         Your username is '$username' <br>
         Your email is '$email' <br>";
         die ("<p><a href=UserLogin.php>Click here to log in</a></p>");
+		$result->close();
+		$connect->close();
     }
+
 }
-
-
 function add_user($connection, $username, $email, $token)
 {
     $query = "INSERT INTO users VALUES ('$username','$email', '$token')";
@@ -149,5 +140,4 @@ function Validate($email, $username, $password) {
     return true;
 }
 
-$result->close();
-$connect->close();
+
