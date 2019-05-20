@@ -91,12 +91,8 @@ $table = "CREATE TABLE IF NOT EXISTS users (
       )";
 
 
-//Check connections
-if ($connect->query($table) === TRUE) {
-//    echo "Table users created successfully"."<br>";
-} else {
-//    echo "Error creating table: " . $connect->error;
-}
+$result = $connect->query($table);
+
 
 if (isset($_POST['submit'])) {
 
@@ -114,7 +110,11 @@ if (isset($_POST['submit'])) {
         Your username is '$username' <br>
         Your email is '$email' <br>";
         die ("<p><a href=UserLogin.php>Click here to log in</a></p>");
+
     }
+
+    $result->close();
+    $connect->close();
 }
 
 
@@ -149,5 +149,3 @@ function Validate($email, $username, $password) {
     return true;
 }
 
-$result->close();
-$connect->close();
