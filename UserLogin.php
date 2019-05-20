@@ -9,6 +9,8 @@
  */
 
 require_once 'login.php';
+require_once 'Sanitize.php';
+
 $connect = new mysqli($hn, $un, $pw, $db);
 if ($connect->connect_error) die("Connection failed: " . $connect->connect_error);
 
@@ -51,23 +53,6 @@ if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
     die ("Please enter your username and password");
 }
 
-
-function mysql_entities_fix_string($connect, $string)
-{
-    return htmlentities(mysql_fix_string($connect, $string));
-}
-
-function mysql_fix_string($connect, $string)
-{
-    if (get_magic_quotes_gpc()) $string = stripslashes($string);
-    return $connect->real_escape_string($string);
-}
-
-function sanitizeMySQL($connection, $var) {
-    $var = $connection->real_escape_string($var);
-    $var = sanitizeString($var);
-    return $var;
-}
 
 $result->close();
 $connect->close();

@@ -21,4 +21,14 @@ function sanitizeMySQL($connection, $var) {
     return $var;
 }
 
+function mysql_entities_fix_string($connect, $string)
+{
+    return htmlentities(mysql_fix_string($connect, $string));
+}
+
+function mysql_fix_string($connect, $string)
+{
+    if (get_magic_quotes_gpc()) $string = stripslashes($string);
+    return $connect->real_escape_string($string);
+}
 ?>

@@ -80,6 +80,7 @@ echo <<<_END
 _END;
 
 
+//Input from text box
 if (isset($_POST['submit1'])){
 	if(strlen($_POST['myArea'])!=0){
 		
@@ -89,6 +90,7 @@ if (isset($_POST['submit1'])){
 		start($text, $conn, true);
 	}
 }
+//Input from a text file
 else if (isset($_POST['submit2'])) {
     if ($_FILES['fileToUpload']['type'] == 'text/plain') {
 
@@ -104,6 +106,7 @@ else if (isset($_POST['submit2'])) {
 
 }
 
+//start Encryption/Decryption
 function start($myData, $conn, $bool){
 
     $output    = "";
