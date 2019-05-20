@@ -1,18 +1,19 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: TrinhNg
- * Date: 2019-04-09
- * Time: 14:28
+ * Decryptoid (v1)
+ * Server_side Web Programming
+ * Team Members: Mandeep Pabla, Trinh Nguyen, Victor Nguyen
+ * IDE: PhpStorm
+ * Date: 05/19/2019
  */
+
 /*
  * RC4 symmetric cipher encryption
  * @param key - secret key for encryption
  * @param str - string to be encrypted
  * @return string
  */
-
-
 
 class RC4 {
 

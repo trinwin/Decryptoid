@@ -1,21 +1,12 @@
 <?php
-/**
- * User: Trinh Nguyen
- * IDE: PhpStorm
- */
 
-//Testing
-//$affineCipher = new AffineCipher;
-//
-//$plainText = "Hello World";
-//$cipherText = $affineCipher->affineCipherEncrypt($plainText, $key_A, $key_B, $numLetter);
-//echo "\n" . $cipherText . "\n";
-//echo $affineCipher->affineCipherDecrypt($cipherText, $key_A, $key_B, $numLetter);
-//
-//$plainText = "CS174 Server-side web programming";
-//$cipherText = affineCipherEncrypt($plainText, $key_A, $key_B, $numLetter);
-//echo "\n" .$cipherText . "\n";
-//echo affineCipherDecrypt($cipherText, $key_A, $key_B, $numLetter);
+/**
+ * Decryptoid (v1)
+ * Server_side Web Programming
+ * Team Members: Mandeep Pabla, Trinh Nguyen, Victor Nguyen
+ * IDE: PhpStorm
+ * Date: 05/19/2019
+ */
 
 class AffineCipher{
     static $key_A = 17;

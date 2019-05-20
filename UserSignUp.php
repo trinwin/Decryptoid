@@ -1,4 +1,13 @@
 <?php
+
+/**
+ * Decryptoid (v1)
+ * Server_side Web Programming
+ * Team Members: Mandeep Pabla, Trinh Nguyen, Victor Nguyen
+ * IDE: PhpStorm
+ * Date: 05/19/2019
+ */
+
 require_once "login.php";
 $connect = new mysqli($hn, $un, $pw, $db);
 if ($connect->connect_error) die("Connection failed: " . $connect->connect_error);
@@ -36,7 +45,7 @@ echo <<<_END
 		</head>
 	<body>
     
-    <form id ='signup' form method='POST' action='userSignUp.php' name='form' onsubmit ="return Validate();">
+    <form id ='signup' form method='POST' action='UserSignUp.php' name='form' onsubmit ="return Validate();">
         <div class="container">
             <h1>Sign Up</h1>
             <p>Please fill in this form to create an account.</p>
@@ -82,7 +91,7 @@ $table = "CREATE TABLE IF NOT EXISTS users (
 
 //Check connections
 if ($connect->query($table) === TRUE) {
-    echo "Table users created successfully"."<br>";
+//    echo "Table users created successfully"."<br>";
 } else {
     echo "Error creating table: " . $connect->error;
 }
@@ -95,7 +104,6 @@ if (isset($_POST['submit'])) {
 
     Validate($email, $username, $password);
 
-    echo "here".$password. "<br>";
 
     $salt1 = "qm&h*"; $salt2 = "pg!@";
     $token = hash('ripemd128', "$salt1$password$salt2");
@@ -105,7 +113,7 @@ if (isset($_POST['submit'])) {
     echo "Welcome!<br>
     Your username is '$username' <br>
     Your email is '$email' <br>";
-    die ("<p><a href=userLogin.php>Click here to log in</a></p>");
+    die ("<p><a href=UserLogin.php>Click here to log in</a></p>");
 }
 
 
@@ -132,7 +140,7 @@ function sanitizeMySQL($connection, $var) {
 
 function Validate($email, $username, $password) {
     echo "validate";
-    $str = "";
+
     $reg_email = "/^\w+@[a-z]+\.(edu|com)$/";
     $reg_user = "/^[\w_-]+$/";
 
@@ -145,3 +153,6 @@ function Validate($email, $username, $password) {
     if(!preg_match($reg_user, $password))
         echo "password is in an incorrect format";
 }
+
+$result->close();
+$connect->close();

@@ -1,9 +1,12 @@
 <?php
-	
-	# Simple Subsitiution
-	#
-	# plain alphabet : abcdefghijklmnopqrstuvwxyz
-	# cipher alphabet: phqgiumeaylnofdxjkrcvstzwb
+
+/**
+ * Decryptoid (v1)
+ * Server_side Web Programming
+ * Team Members: Mandeep Pabla, Trinh Nguyen, Victor Nguyen
+ * IDE: PhpStorm
+ * Date: 05/19/2019
+ */
 	
 class SimpleSubstitution {
 

@@ -1,6 +1,13 @@
 <?php
 
-//validation
+/**
+ * Decryptoid (v1)
+ * Server_side Web Programming
+ * Team Members: Mandeep Pabla, Trinh Nguyen, Victor Nguyen
+ * IDE: PhpStorm
+ * Date: 05/19/2019
+ */
+
 require_once 'login.php';
 $connect = new mysqli($hn, $un, $pw, $db);
 if ($connect->connect_error) die("Connection failed: " . $connect->connect_error);
@@ -10,7 +17,6 @@ if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
     $un_temp = mysql_entities_fix_string($connect, $_SERVER['PHP_AUTH_USER']);
     $pw_temp = mysql_entities_fix_string($connect, $_SERVER['PHP_AUTH_PW']);
 
-    echo "here".$pw_temp. "<br>";
     $query = "SELECT * FROM users WHERE username = '$un_temp'";
     $result = $connect->query($query);
 
@@ -29,12 +35,12 @@ if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
             $_SESSION['email'] = $row[2];
             $_SESSION['password'] = $pw_temp;
 
-            echo "Hi $un_temp";
-            die ("<p><a href=sqlPra.php>Click here to access main page</a></p>");
+            echo "Hi $un_temp!";
+            die ("<p><a href=MainPage.php>Click here to access main page</a></p>");
         }
         else {
             echo "Please close the browser and log in again or sign up <br>";
-            echo "<p><a href=userSignUp.php>Sign up</a></p>";
+            echo "<p><a href=UserSignUp.php>Sign up</a></p>";
             die("Invalid username/password combination");
         }
     }
@@ -45,7 +51,6 @@ if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
     die ("Please enter your username and password");
 }
 
-$connect->close();
 
 function mysql_entities_fix_string($connect, $string)
 {
@@ -63,3 +68,6 @@ function sanitizeMySQL($connection, $var) {
     $var = sanitizeString($var);
     return $var;
 }
+
+$result->close();
+$connect->close();

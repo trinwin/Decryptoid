@@ -1,13 +1,13 @@
 <?php
 
-#$vc1 = new VigenereCipher;
+/**
+ * Decryptoid (v1)
+ * Server_side Web Programming
+ * Team Members: Mandeep Pabla, Trinh Nguyen, Victor Nguyen
+ * IDE: PhpStorm
+ * Date: 05/19/2019
+ */
 
-#echo $vc1->encrypt("spart", "spartans are coming hide your wife and kids") . "<br>";
-
-#echo $vc1->decrypt("spart", $vc1->encrypt("spart", "spartans are coming hide your wife and kids"));
-
-
-#MAKE SURE TO REMOVE ANY INPUT THAT ISNT LETTERS A-Z. Can take lower case or upper case letters only.
 class VigenereCipher {
     function elongateKey($key, $text)
     {

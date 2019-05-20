@@ -1,38 +1,31 @@
 <?php
-#select tags in HTML for drop down menu # put into container?
 
-#input type = file (inorder to have user upload file)
+/**
+ * Decryptoid (v1)
+ * Server_side Web Programming
+ * Team Members: Mandeep Pabla, Trinh Nguyen, Victor Nguyen
+ * IDE: PhpStorm
+ * Date: 05/19/2019
+ */
 
-#
-#   Email: <input type = "email" placeholder="enter email" required>
-
-#   Password: <input type = "password" placeholder="enter password" required>
-#   <button>Sign-in</button>
-
-# login file
 require_once 'login.php';
 require_once 'Sanitize.php';
-# Connect to MySQL database
+
+// Connect to MySQL database
 $conn = new mysqli($hn, $un, $pw, $db);
 if($conn->connect_error) die($conn->connect_error);
 
+//Start session
 session_start();
 
-//Set time out to 1 day
-
-/*if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
-	ini_set('session.gc_maxlifetime', 60 * 60 * 24);
-}
-*/
-
-
+//Authenticate User
 if (isset($_SESSION['username'])) {
 
+    ini_set('session.gc_maxlifetime', 60 * 60 * 24);
     $username = $_SESSION['username'];
 
     echo "Welcome back $username!<br><br>";
 
-    //CHECK SESSION AND THEN SAVE dataEntry
     $query = "CREATE TABLE IF NOT EXISTS dataEntry(
         entryTimeStamp TIMESTAMP NOT NULL,
         username VARCHAR(32) NOT NULL,
@@ -45,16 +38,13 @@ if (isset($_SESSION['username'])) {
     if(!$result) die ("Database access failed 1: " . $conn->error);
 }
 
-
-
-
 echo <<<_END
 
     <h1>Welcome to Decryptoid!</h1>
     
-	<p><a href=userSignUp.php>Sign up</a>   <a href=userLogin.php>Login</a></p>
+	<p><a href=UserSignUp.php>Sign up</a>   <a href=UserLogin.php>Login</a></p>
 	
-    <form action="sqlPra.php" method="POST" enctype="multipart/form-data">
+    <form action="MainPage.php" method="POST" enctype="multipart/form-data">
         
         Select Cipher: <select id ="ciphers" name ="ciphers">
             <option value = "Simple Substitution">Simple Substitution</option>
@@ -117,8 +107,6 @@ else if (isset($_POST['submit2'])) {
 function start($myData, $conn, $bool){
 
     $output    = "";
-    $textInput = "";
-    $fileInput = "";
 
     if($bool){
         $textInput = $myData;
@@ -260,5 +248,7 @@ function makeQuery($conn, $timestamp, $username, $text, $file, $output){
 
 }
 
+$result->close();
+$connect->close();
 
 ?>
