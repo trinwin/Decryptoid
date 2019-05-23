@@ -1,13 +1,13 @@
 # Decryptoid
 
-Decryptoid is a Web Application that lets the users encrypt and decrypt texts or text file using 6 different ciphers.
+Decryptoid is a Web Application using PHP, MySQL and JavaScript that lets the users encrypt and decrypt texts or text file using 6 different ciphers, which are:
 
-- [x] Simple Substitution
-- [x] Double Transposition
-- [x] RC4
-- [x] Play Fair 
-- [x] Affine Cipher
-- [x] Vigenere Cipher
+  * Simple Substitution
+  * Double Transposition
+  * RC4
+  * Play Fair 
+  * Affine Cipher
+  * Vigenere Cipher
 
 ## Features
 - [x] User Sign up
