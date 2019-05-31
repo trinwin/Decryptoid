@@ -19,6 +19,6 @@ Decryptoid is a Web Application using PHP, MySQL and JavaScript that lets the us
 - [x] Server-side Validation
 
 ## Authors 
-* **Trinh Nguyen**  - [trinhng01](https://github.com/trinhng01)
+* **Trinh Nguyen**  - [trinityng](https://github.com/trinityng)
 * **Mandeep Pabla** - [mpabla7](https://github.com/mpabla7)
 * **Victor Nguyen** - [nguyenvic](https://github.com/nguyenvic)
